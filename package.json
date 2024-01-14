@@ -1,0 +1,12 @@
+{
+  "name": "e-commerce-react-bootstrap",
+  "version": "1.0.0",
+  "description": "server side token instead of client, admin....",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
