@@ -23,6 +23,8 @@
 - React router dom - route management
 - React router bootstrap - bootstrap support
 - Axios - HTTP request
+- @reduxjs/toolkit - global state management
+- react-redux - react and redux binding
 
 ## Backend -Node.js MongoDB
 
@@ -32,6 +34,7 @@
 - Bcrypt -password hashing middleware
 - Cors - cross origin resource sharing middleware
 - Dotenv - environment variable middleware
+- Concurrency - command concurrency
 
 ### Install Dependencies (frontend & backend)
 
