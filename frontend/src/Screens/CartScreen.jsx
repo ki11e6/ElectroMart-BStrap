@@ -3,7 +3,7 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart, removeFromCart } from '../slices/cartSlice';
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -17,8 +17,7 @@ const CartScreen = () => {
   };
 
   const removeFromCartHandler = (id) => {
-    console.log(id);
-    //   dispatch(removeFromCart(id));
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
