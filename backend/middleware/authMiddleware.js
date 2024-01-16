@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import asyncHandle from './asyncHandler';
-import User from '../models/userModel';
+import asyncHandle from './asyncHandler.js';
+import User from '../models/userModel.js';
 
 //Protect routes
 const protect = asyncHandle(async (req, res, next) => {
@@ -12,12 +12,12 @@ const protect = asyncHandle(async (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decoded.userId;
-      req.user = await User.findOne({ userId }).select('-password');
-      next();
+      req.user = await User.findOne({ _id: userId }).select('-password');
     } catch (error) {
       res.status(401);
       throw new Error('Not authorized ,token failed');
     }
+    next();
   } else {
     res.status(401);
     throw new Error('Not authorized , no token found');
@@ -27,7 +27,9 @@ const protect = asyncHandle(async (req, res, next) => {
 //Admin middleware
 
 const admin = asyncHandle(async (req, res, next) => {
+  // console.log(req.user);
   if (req.user && req.user.isAdmin) {
+    // console.log(req.user);
     next();
   } else {
     res.status(401);
