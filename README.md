@@ -35,6 +35,9 @@
 - Cors - cross origin resource sharing middleware
 - Dotenv - environment variable middleware
 - Concurrency - command concurrency
+- jsonwebtoken - JSON web token
+- cookie-parser - parses the HTTP request to extract any cookies that come with the request
+- multer - file upload middleware
 
 ### Install Dependencies (frontend & backend)
 
