@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
-import asyncHandle from './asyncHandler.js';
+import asyncHandler from './asyncHandler.js';
 import User from '../models/userModel.js';
 
 //Protect routes
-const protect = asyncHandle(async (req, res, next) => {
+const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   //read token from coookie
@@ -26,7 +26,7 @@ const protect = asyncHandle(async (req, res, next) => {
 
 //Admin middleware
 
-const admin = asyncHandle(async (req, res, next) => {
+const admin = asyncHandler(async (req, res, next) => {
   // console.log(req.user);
   if (req.user && req.user.isAdmin) {
     // console.log(req.user);
