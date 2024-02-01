@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 
@@ -22,6 +23,7 @@ import RegisterScreen from './Screens/RegisterScreen.jsx';
 import ShippingScreen from './Screens/ShippingScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import PaymentScreen from './Screens/PaymentScreen.jsx';
+import PlaceOrderScreen from './Screens/PlaceOrderScreen.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +37,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/shipping" element={<ShippingScreen />} />
         <Route path="/payment" element={<PaymentScreen />} />
+        <Route path="/placeorder" element={<PlaceOrderScreen />} />
       </Route>
     </Route>
   )
