@@ -26,6 +26,7 @@
 - @reduxjs/toolkit - global state management
 - react-redux - react and redux binding
 - react-toastify - create and display toast notifications
+- paypal/react-paypal-js - paypal react package
 
 ## Backend -Node.js MongoDB
 
