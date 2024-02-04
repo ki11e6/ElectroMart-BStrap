@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'; //for extracting state
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
-import { toast } from 'react-toastify';
+import { resetCart } from '../slices/cartSlice';
 import logo from '../assets/logo3.png';
 function Header() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -20,15 +20,16 @@ function Header() {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       navigate('/login');
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      console.error(err);
     }
   };
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
@@ -50,6 +51,7 @@ function Header() {
                   )}
                 </Nav.Link>
               </LinkContainer>
+              {/* Users menu */}
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
                   <LinkContainer to="/profile">
@@ -66,6 +68,20 @@ function Header() {
                     Sign
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {/* Admin menu */}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
