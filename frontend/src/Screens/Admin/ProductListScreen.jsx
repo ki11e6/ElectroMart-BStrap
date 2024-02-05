@@ -4,13 +4,27 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
-import { useGetProductsQuery } from '../../slices/productsApiSlice';
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+} from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
 
 const ProductListScreen = () => {
   const { data: products, isLoading, error, refetch } = useGetProductsQuery();
-  const createProductHandler = () => {
-    console.log('createProductHandler');
+
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation();
+
+  const createProductHandler = async () => {
+    if (window.confirm('Are you sure you want to create a new product?')) {
+      try {
+        await createProduct();
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
   };
 
   const deleteHandler = (id) => {
@@ -28,7 +42,7 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-
+      {loadingCreate && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
