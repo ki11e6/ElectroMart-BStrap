@@ -1,11 +1,11 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 import {
   useGetProductsQuery,
+  useDeleteProductMutation,
   useCreateProductMutation,
 } from '../../slices/productsApiSlice';
 import { toast } from 'react-toastify';
@@ -27,9 +27,21 @@ const ProductListScreen = () => {
     }
   };
 
-  const deleteHandler = (id) => {
-    console.log(id);
+  const [deleteProduct, { isLoading: loadingDelete }] =
+    useDeleteProductMutation();
+
+  const deleteHandler = async (id) => {
+    if (window.confirm('Are you sure?')) {
+      try {
+        await deleteProduct(id);
+        toast.success('Product deleted successfully');
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
   };
+
   return (
     <>
       <Row className="align-items-center">
@@ -43,6 +55,7 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       {loadingCreate && <Loader />}
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (

@@ -69,6 +69,7 @@ const uploadSingleImage = upload.single('image');
 //       });
 //   });
 // });
+
 router.post('/', (req, res) => {
   uploadSingleImage(req, res, function (err) {
     if (err) {
