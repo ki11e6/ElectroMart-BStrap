@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import { resetCart } from '../slices/cartSlice';
+import SearchBox from './SearchBox';
 import logo from '../assets/logo3.png';
-function Header() {
+
+const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -41,6 +43,9 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             {/* align to the left so ms-auto */}
             <Nav className="ms-auto">
+              {/* search box here */}
+              <SearchBox />
+
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
@@ -89,6 +94,6 @@ function Header() {
       </Navbar>
     </header>
   );
-}
+};
 
 export default Header;

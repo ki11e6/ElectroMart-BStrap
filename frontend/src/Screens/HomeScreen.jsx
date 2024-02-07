@@ -1,33 +1,51 @@
 import { Row, Col } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
 import Product from '../components/Product';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
+import Paginate from '../components/Paginate';
 
 function HomeScreen() {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
+  const { pageNumber, keyword } = useParams();
+
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
+
   return (
     <>
+      {keyword && (
+        <Link to="/" className="btn btn-light mb-4">
+          Go Back
+        </Link>
+      )}
       {isLoading ? (
         <Loader />
-      ) : isError ? (
+      ) : error ? (
         <Message variant="danger">
-          {isError?.data?.message || isError.error}
+          {error?.data?.message || error.error}
         </Message>
       ) : (
         <>
-          {products.length > 0 ? (
+          {data.products.length > 0 ? (
             <>
               <Meta />
               <h1>Latest Poducts</h1>
               <Row>
-                {products.map((product) => (
+                {data.products.map((product) => (
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                     <Product product={product} />
                   </Col>
                 ))}
               </Row>
+              <Paginate
+                pages={data.pages}
+                page={data.page}
+                keyword={keyword ? keyword : ''}
+              />
             </>
           ) : (
             <Message>All Out of Stock!</Message>
