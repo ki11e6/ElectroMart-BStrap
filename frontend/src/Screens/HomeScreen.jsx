@@ -3,6 +3,7 @@ import Product from '../components/Product';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 
 function HomeScreen() {
   const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -11,11 +12,14 @@ function HomeScreen() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <Message variant="danger">{isError?.data?.message || isError.error}</Message>
+        <Message variant="danger">
+          {isError?.data?.message || isError.error}
+        </Message>
       ) : (
         <>
           {products.length > 0 ? (
             <>
+              <Meta />
               <h1>Latest Poducts</h1>
               <Row>
                 {products.map((product) => (
