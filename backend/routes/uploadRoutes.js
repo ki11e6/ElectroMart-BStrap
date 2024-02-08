@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import multer from 'multer';
-// import sharp from 'sharp'; // Import sharp for image resizing
 
 const router = express.Router();
 
@@ -43,32 +42,6 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({ storage, fileFilter });
 const uploadSingleImage = upload.single('image');
-
-//upload image route with resize
-// router.post('/', (req, res) => {
-//   uploadSingleImage(req, res, function (err) {
-//     if (err) {
-//       return res.status(400).send({ message: err.message });
-//     }
-
-//     // Resize image to 640x510 using Sharp
-//     const resizedImagePath = `uploads/resized-${Date.now()}.jpg`; // Save resized image with a different name
-//     sharp(req.file.path)
-//       .resize(640, 510)
-//       .toFile(resizedImagePath, (err, info) => {
-//         if (err) {
-//           return res.status(500).send({ message: 'Error resizing image' });
-//         }
-//         // Delete original uploaded image
-//         // fs.unlinkSync(req.file.path);
-
-//         res.status(200).send({
-//           message: 'Image uploaded and resized successfully',
-//           image: `/${resizedImagePath}`,
-//         });
-//       });
-//   });
-// });
 
 router.post('/', (req, res) => {
   uploadSingleImage(req, res, function (err) {

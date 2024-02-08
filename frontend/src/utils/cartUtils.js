@@ -5,11 +5,14 @@ export const addDecimals = (num) => {
 export const updateCart = (state) => {
   // Calculate the items price in whole number (pennies) to avoid issues with
   // floating point number calculations
-  const itemsPrice = state.cartItems.reduce((acc, item) => acc + (item.price * 100 * item.qty) / 100, 0);
+  const itemsPrice = state.cartItems.reduce(
+    (acc, item) => acc + (item.price * 100 * item.qty) / 100,
+    0
+  );
   state.itemsPrice = addDecimals(itemsPrice);
 
   // Calculate the shipping price ₹10000 free or 100
-  const shippingPrice = itemsPrice > 10000 ? 0 : 100;
+  const shippingPrice = itemsPrice > 500 ? 0 : 50;
   state.shippingPrice = addDecimals(shippingPrice);
 
   // Calculate the tax price 18%
