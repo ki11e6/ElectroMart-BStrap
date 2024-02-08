@@ -100,9 +100,6 @@ admin@email.com (Admin)
 
 john@email.com (Customer)
 123456
-
-jane@email.com (Customer)
-123456
 ```
 
 ---
