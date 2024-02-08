@@ -17,14 +17,23 @@ connectDB();
 const port = process.env.PORT || 8000;
 const app = express();
 
-// static
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use('/api/products', productRoutes);
+app.use('/api/users/', userRoutes);
+app.use('/api/orders/', orderRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/config/paypal', paypalRoutes);
+
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
   app.use('/uploads', express.static('/var/data/uploads'));
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
   );
 } else {
   const __dirname = path.resolve();
@@ -33,16 +42,6 @@ if (process.env.NODE_ENV === 'production') {
     res.send('Ecom-API is running....');
   });
 }
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.use('/api/products', productRoutes);
-app.use('/api/users/', userRoutes);
-app.use('/api/orders/', orderRoutes);
-app.use('/api/config/paypal', paypalRoutes);
-app.use('/api/upload', uploadRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
