@@ -2,6 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js';
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import { calcPrices } from '../utils/calcPrices.js';
+import { verifyPayPalPayment, checkIfNewTransaction } from '../utils/paypal.js';
 
 // @desc Creates a new order
 // @route POST /api/orders
@@ -81,6 +82,16 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
+  //paypal varifications
+  // if (order.paymentMethod === 'PayPal') {
+  //   //here we need to verify the payment was made to PayPal before marking
+  //   // the order as paid
+  //   const { verified, value } = await verifyPayPalPayment(req.body.id);
+  //   if (!verified) throw new Error('Payment not verified');
+  //   // check if this transaction has been used before
+  //   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
+  //   if (!isNewTransaction) throw new Error('Transaction has been used before');
+  // }
   if (order) {
     // check the correct amount was paid
     // const paidCorrectAmount = order.totalPrice.toString() === value;
