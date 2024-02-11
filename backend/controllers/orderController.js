@@ -82,20 +82,23 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
-  //paypal varifications
-  // if (order.paymentMethod === 'PayPal') {
-  //   //here we need to verify the payment was made to PayPal before marking
-  //   // the order as paid
-  //   const { verified, value } = await verifyPayPalPayment(req.body.id);
-  //   if (!verified) throw new Error('Payment not verified');
-  //   // check if this transaction has been used before
-  //   const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
-  //   if (!isNewTransaction) throw new Error('Transaction has been used before');
-  // }
   if (order) {
-    // check the correct amount was paid
-    // const paidCorrectAmount = order.totalPrice.toString() === value;
-    // if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
+    //update product Stock
+    const updateProductPromise = order.orderItems.map(async (orderItem) => {
+      const product = await Product.findByIdAndUpdate(
+        orderItem.product,
+        {
+          $inc: { countInStock: -orderItem.qty },
+        },
+        { new: true }
+      );
+      if (!product) {
+        // product not found or update error
+        throw new Error('Product not found or stock update failed');
+      }
+    });
+    // Wait for all product updates to complete before proceeding
+    await Promise.all(updateProductPromise);
 
     order.isPaid = true;
     order.paidAt = Date.now();
@@ -105,9 +108,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       update_time: req.body.update_time,
       email_address: req.body.payer.email_address,
     };
-
     const updatedOrder = await order.save();
-
     res.json(updatedOrder);
   } else {
     res.status(404);

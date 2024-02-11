@@ -10,9 +10,9 @@ function Product({ product }) {
           src={product.image}
           variant="top"
           style={{
-            width: '100%',
-            height: '200px',
-            objectFit: 'cover',
+            // width: '100%',
+            height: '25vh',
+            objectFit: 'contain',
           }}
         />
       </Link>

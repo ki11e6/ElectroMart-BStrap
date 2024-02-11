@@ -88,7 +88,7 @@ const ProductListScreen = () => {
                     <Image
                       src={product.image}
                       alt={product.name}
-                      style={{ width: '70px' }}
+                      style={{ height: '70px', objectFit: 'cover' }}
                       fluid
                       rounded
                     />
